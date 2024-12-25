@@ -2,4 +2,6 @@
 
 Small demos about the use cases using Gemini API.
 
-> Reference: https://ai.google.dev/gemini-api/docs
+## Reference
+
+https://ai.google.dev/gemini-api/docs
