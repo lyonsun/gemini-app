@@ -2,6 +2,8 @@ package demo
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 
@@ -30,14 +32,26 @@ func JsonWithConfig() {
 		log.Fatal(err)
 	}
 
-	printResponse(resp)
-	// for _, part := range resp.Candidates[0].Content.Parts {
-	// 	if txt, ok := part.(genai.Text); ok {
-	// 		var recipes []string
-	// 		if err := json.Unmarshal([]byte(txt), &recipes); err != nil {
-	// 			log.Fatal(err)
-	// 		}
-	// 		fmt.Println(recipes)
-	// 	}
-	// }
+	type Movie struct {
+		Name string `json:"movieName"`
+	}
+
+	var textArray []string
+	for _, part := range resp.Candidates[0].Content.Parts {
+		if txt, ok := part.(genai.Text); ok {
+			if err := json.Unmarshal([]byte(txt), &textArray); err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+
+	var movies []Movie
+	for _, r := range textArray {
+		movies = append(movies, Movie{Name: r})
+	}
+	result, err := json.Marshal(movies)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(result))
 }
