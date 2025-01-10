@@ -18,9 +18,6 @@ func TextGeneration() {
 	defer client.Close()
 
 	model := client.GenerativeModel("gemini-1.5-flash")
-	if model == nil {
-		log.Fatal("Failed to get the model")
-	}
 	resp, err := model.GenerateContent(ctx, genai.Text("What will the world be like in 2025"))
 	if err != nil {
 		log.Fatal(err)
